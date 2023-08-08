@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tic-Tac-Toe</title>
-</head>
-<body>
-  <h1>TIC-TAC-TOE</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Tic-Tac-Toe</title>
+  </head>
+  <body class="flex-container">
+    <h1 id="game-title">TIC-TAC-TOE</h1>
+    <div class="versus">
+      <input
+        type="text"
+        name="p1-name"
+        id="p1-name"
+        placeholder="Enter P1 name"
+      />
+
+      <h2>VS</h2>
+
+      <input
+        type="text"
+        name="p2-name"
+        id="p2-name"
+        placeholder="Enter P2 name"
+      />
+    </div>
+    <button class="play soft-green">PRESS TO PLAY</button>
+    <footer>
+      <p>made by <a href="https://github.com/Bruno514" target="_blank">Bruno514</em></a></p>
+      <p>2023</p>
+    </footer>
+  </body>
   <script src="index.js"></script>
-</body>
 </html>

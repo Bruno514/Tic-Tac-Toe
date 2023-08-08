@@ -1,0 +1,122 @@
+:root {
+  --default-bg: #413b3b;
+  --default-white-color: #ffffff;
+  --default-shadow: rgba(0, 0, 0, 0.25);
+  --play-button-bg: #4dbe6d;
+  --play-button-fg: #281f1f;
+  --input-border: #d9d9d9;
+  --link-color: #536d82;
+  --link-color-visited: #b3948b;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  background-color: var(--default-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+#game-title {
+  color: var(--default-white-color);
+  font-size: 3rem;
+  flex: 0;
+}
+
+.versus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5%;
+  flex: 2;
+}
+
+.versus h2 {
+  color: var(--default-white-color);
+  font-weight: lighter;
+  font-size: 2rem;
+}
+
+input {
+  border-style: none;
+  box-shadow: 0px 4px 4px var(--default-shadow);
+  padding-top: clamp(20px, 5%, 9rem);
+  padding-bottom: clamp(20px, 5%, 9rem);
+  margin: 10px;
+  width: clamp(10px, 75%, 900px);
+  border-radius: 1rem;
+  border: solid 0.4rem var(--input-border);
+  text-align: center;
+}
+
+button.play {
+  background-color: var(--play-button-bg);
+  border-style: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  color: var(--play-button-fg);
+  font-size: clamp(1rem, 200%, 50rem);
+  padding: 2rem 3rem 2rem 3rem;
+  border-radius: 1rem;
+  border-style: solid;
+  border-color: var(--default-white-color);
+}
+
+button.play:hover {
+  border-width: calc(0.4rem);
+  animation: slide 2s ease-in-out .5s infinite alternate
+
+}
+button.play:active {
+  border-width: calc(0.4rem);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  color: var(--default-white-color);
+  padding: 10px;
+  align-self: stretch;
+  flex: 1;
+  align-items: flex-end;
+}
+
+footer p em {
+  text-decoration: underline;
+}
+
+footer a {
+  color: var(--link-color)
+}
+
+footer a:visited {
+  color: var(--link-color-visited)
+}
+
+@keyframes slide {
+  0% {
+    border-width: 0.2rem;
+  }
+  50% {
+    border-width: 0.4rem;
+  }
+  100% {
+    border-width: 4.6rem;
+  }
+}

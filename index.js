@@ -108,5 +108,5 @@ const gameFlow = (() => {
   const _switchActivePlayer = () =>
     activePlayer === 1 ? (activePlayer = 2) : (activePlayer = 1);
 
-  return { setPlayers, playTurn, getPlayer, reset };
+  return { setPlayers, getPlayer, playTurn, reset };
 })();
