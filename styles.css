@@ -39,12 +39,33 @@ body {
   flex: 0;
 }
 
+.board {
+  display: grid;
+  width: clamp(5rem, 15rem, 40rem);
+  height:clamp(5rem, 15rem, 40rem);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  flex-shrink: 0;
+}
+
+
+@media only screen and (min-width: 900px) {
+  .board {
+    width: 20rem;
+    height: 20rem;
+  }
+}
+
+.cell {
+  border: solid 2px var(--play-button-fg);
+}
+
 .versus {
   display: flex;
+  flex-grow: 1;
   align-items: center;
   justify-content: space-between;
   gap: 5%;
-  flex: 2;
 }
 
 .versus h2 {
@@ -78,13 +99,8 @@ button.play {
   border-color: var(--default-white-color);
 }
 
-button.play:hover {
-  border-width: calc(0.4rem);
-  animation: slide 2s ease-in-out .5s infinite alternate
-
-}
-button.play:active {
-  border-width: calc(0.4rem);
+button.play:hover{
+  animation: slide 0.2s ease-in-out .1s forwards
 }
 
 footer {
@@ -111,12 +127,12 @@ footer a:visited {
 
 @keyframes slide {
   0% {
-    border-width: 0.2rem;
+    border-width: 0.1rem;
   }
   50% {
-    border-width: 0.4rem;
+    border-width: 0.2rem;
   }
   100% {
-    border-width: 4.6rem;
+    border-width: 0.3rem;
   }
 }
