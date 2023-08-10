@@ -72,6 +72,10 @@ const Player = (playerName, playerMark) => {
   return { getName, getMark };
 };
 
+const gameState = (() => {
+  // TODO
+})();
+
 const gameFlow = (() => {
   const players = { p1: null, p2: null };
   let activePlayer = 1;
@@ -83,6 +87,8 @@ const gameFlow = (() => {
 
   const getPlayer = (player) => players[`p${player}`];
 
+  const getActivePlayer = () => players[`p${activePlayer}`];
+
   const reset = () => {
     gameBoard.resetBoard();
     activePlayer = 1;
@@ -92,21 +98,86 @@ const gameFlow = (() => {
     try {
       gameBoard.placeMark(cell, getPlayer(activePlayer).getMark());
     } catch (e) {
-      console.log("Error: ", e.message);
-      return undefined;
+      throw e;
     }
 
     res = gameBoard.check();
 
-    if (res === null) {
-      _switchActivePlayer();
-    }
-
     return res;
+  };
+
+  const nextTurn = () => {
+    _switchActivePlayer();
   };
 
   const _switchActivePlayer = () =>
     activePlayer === 1 ? (activePlayer = 2) : (activePlayer = 1);
 
-  return { setPlayers, getPlayer, playTurn, reset };
+  return { setPlayers, getPlayer, getActivePlayer, playTurn, nextTurn, reset };
 })();
+
+gameFlow.setPlayers("Bruno1", "Bruno2");
+
+const displayController = (() => {
+  let _CachedDom = undefined;
+
+  const init = () => {
+    _CachedDom = _cacheDom();
+    _bindEvents();
+    _toggleBoard();
+  };
+
+  const _bindEvents = () => {
+    _CachedDom.button.addEventListener("click", _startGame);
+    _CachedDom.board.querySelectorAll(".cell").forEach((element) => {
+      element.addEventListener("click", _placeMarkOnCell);
+    });
+  };
+
+  const _cacheDom = () => {
+    const button = document.querySelector("button");
+    const board = document.querySelector(".board");
+    const versus = document.querySelector(".versus");
+
+    return { button, board, versus };
+  };
+
+  const _toggleBoard = () => {
+    if (_CachedDom.board.style.display === "none") {
+      _CachedDom.board.style.display = "grid";
+    } else {
+      _CachedDom.board.style.display = "none";
+    }
+  };
+
+  // Events
+  const _startGame = () => {
+    _CachedDom.button.style.display = "none";
+    _CachedDom.versus.style.display = "none";
+    _toggleBoard();
+  };
+
+  const _placeMarkOnCell = (e) => {
+    const cell = e.target;
+    const cellNumber = cell.dataset.cellNumber;
+    const playerMark = gameFlow.getActivePlayer().getMark();
+
+    try {
+      let res = gameFlow.playTurn(cellNumber);
+
+      if (playerMark == "X") {
+        cell.classList.add("cross");
+      } else {
+        cell.classList.add("circle");
+      }
+
+      gameFlow.nextTurn();
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { init };
+})();
+
+displayController.init();

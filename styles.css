@@ -36,23 +36,24 @@ body {
 #game-title {
   color: var(--default-white-color);
   font-size: 3rem;
-  flex: 0;
+  flex-shrink: 1;
 }
 
 .board {
   display: grid;
-  width: clamp(5rem, 15rem, 40rem);
-  height:clamp(5rem, 15rem, 40rem);
+  margin-top: 2rem;
+  width: clamp(20rem, 20%, 45rem);
+  height: clamp(20rem, 40%, 45rem);
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   flex-shrink: 0;
 }
 
-
-@media only screen and (min-width: 900px) {
+@media only screen and (max-width: 600px) {
   .board {
-    width: 20rem;
-    height: 20rem;
+    margin-top: 2rem;
+    width: clamp(20rem, 10%, 40rem);
+    height: clamp(20rem, 20%, 40rem);
   }
 }
 
@@ -72,6 +73,13 @@ body {
   color: var(--default-white-color);
   font-weight: lighter;
   font-size: 2rem;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 input {
@@ -99,8 +107,8 @@ button.play {
   border-color: var(--default-white-color);
 }
 
-button.play:hover{
-  animation: slide 0.2s ease-in-out .1s forwards
+button.play:hover {
+  animation: slide 0.2s ease-in-out 0.1s forwards;
 }
 
 footer {
@@ -118,11 +126,11 @@ footer p em {
 }
 
 footer a {
-  color: var(--link-color)
+  color: var(--link-color);
 }
 
 footer a:visited {
-  color: var(--link-color-visited)
+  color: var(--link-color-visited);
 }
 
 @keyframes slide {
@@ -135,4 +143,18 @@ footer a:visited {
   100% {
     border-width: 0.3rem;
   }
+}
+
+.cross {
+  background-image: url("img/cross.svg");
+  background-repeat: no-repeat;
+  background-size: 80%;
+  background-position: center;
+}
+
+.circle {
+  background-image: url("img/circle.svg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
 }
