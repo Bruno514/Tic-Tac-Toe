@@ -41,6 +41,8 @@ const gameBoard = (() => {
     console.log(_boardArray);
   };
 
+  const getCell = (cell) => _boardArray[cell];
+
   const placeMark = (cell, mark) => {
     if (!_validMove(cell)) {
       throw Error("Invalid move.");
@@ -59,7 +61,7 @@ const gameBoard = (() => {
     return false;
   };
 
-  return { check, resetBoard, placeMark, showBoard };
+  return { check, resetBoard, placeMark, showBoard, getCell };
 })();
 
 const Player = (playerName, playerMark) => {
@@ -73,7 +75,17 @@ const Player = (playerName, playerMark) => {
 };
 
 const gameState = (() => {
-  // TODO
+  let gameActive = false;
+
+  const isGameActive = () => gameActive;
+  const startGame = () => {
+    gameActive = true;
+  };
+  const endGame = () => {
+    gameActive = false;
+  };
+
+  return { isGameActive, startGame, endGame };
 })();
 
 const gameFlow = (() => {
@@ -95,15 +107,21 @@ const gameFlow = (() => {
   };
 
   const playTurn = (cell) => {
-    try {
-      gameBoard.placeMark(cell, getPlayer(activePlayer).getMark());
-    } catch (e) {
-      throw e;
+    if (gameState.isGameActive()) {
+      try {
+        gameBoard.placeMark(cell, getPlayer(activePlayer).getMark());
+      } catch (e) {
+        throw e;
+      }
+
+      res = gameBoard.check();
+
+      if (!!res) {
+        gameState.endGame();
+      }
+
+      return res;
     }
-
-    res = gameBoard.check();
-
-    return res;
   };
 
   const nextTurn = () => {
@@ -130,7 +148,7 @@ const displayController = (() => {
   const _bindEvents = () => {
     _CachedDom.button.addEventListener("click", _startGame);
     _CachedDom.board.querySelectorAll(".cell").forEach((element) => {
-      element.addEventListener("click", _placeMarkOnCell);
+      element.addEventListener("click", _playTurn);
     });
   };
 
@@ -140,6 +158,19 @@ const displayController = (() => {
     const versus = document.querySelector(".versus");
 
     return { button, board, versus };
+  };
+
+  const _playTurn = (e) => {
+    const cell = e.target;
+    const cellNumber = cell.dataset.cellNumber;
+
+    let res = gameFlow.playTurn(cellNumber);
+    if(!!res) {
+      document.querySelector(".message").textContent = res;
+    }
+
+    gameFlow.nextTurn();
+    _renderBoard();
   };
 
   const _toggleBoard = () => {
@@ -155,26 +186,21 @@ const displayController = (() => {
     _CachedDom.button.style.display = "none";
     _CachedDom.versus.style.display = "none";
     _toggleBoard();
+    gameState.startGame();
   };
 
-  const _placeMarkOnCell = (e) => {
-    const cell = e.target;
-    const cellNumber = cell.dataset.cellNumber;
-    const playerMark = gameFlow.getActivePlayer().getMark();
+  const _renderBoard = (e) => {
+    document.querySelectorAll(".cell").forEach((element) => {
+      const cellNumber = element.dataset.cellNumber;
 
-    try {
-      let res = gameFlow.playTurn(cellNumber);
-
-      if (playerMark == "X") {
-        cell.classList.add("cross");
+      if (gameBoard.getCell(cellNumber) == "X") {
+        element.className = "cell cross";
+      } else if (gameBoard.getCell(cellNumber) == "O") {
+        element.className = "cell circle";
       } else {
-        cell.classList.add("circle");
+        element.className = "cell";
       }
-
-      gameFlow.nextTurn();
-    } catch (e) {
-      throw e;
-    }
+    });
   };
 
   return { init };
